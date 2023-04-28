@@ -8,9 +8,15 @@ const debug = 0;
 
 class Gibber_EventHandler : StaticEventHandler {
 	override void WorldThingSpawned(WorldEvent e) {
-		if (e.Thing.bSHOOTABLE) {
+		if ((e.Thing.bSHOOTABLE || e.Thing.bISMONSTER) && !e.Thing.player) {
 			e.Thing.GiveInventory("Gibber_DamageAccumulator", 1);
 		}
+	}
+	override void PlayerSpawned(PlayerEvent e) {
+		players[e.PlayerNumber].mo.GiveInventory("Gibber_DamageAccumulator", 1);
+	}
+	override void PlayerRespawned(PlayerEvent e) {
+		players[e.PlayerNumber].mo.GiveInventory("Gibber_DamageAccumulator", 1);
 	}
 }
 
@@ -23,7 +29,12 @@ class Gibber_DamageAccumulator : Inventory {
 	int gibHealth;
 	int accumilatedDamage;
 
-	Default { Inventory.MaxAmount 1; }
+	Default {
+		Inventory.MaxAmount 1;
+		+INVENTORY.UNDROPPABLE;
+		+INVENTORY.UNCLEARABLE;
+		+INVENTORY.PERSISTENTPOWER;
+	}
 
 	override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags) {
 		if (passive) {
