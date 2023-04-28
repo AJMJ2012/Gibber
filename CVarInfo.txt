@@ -1,0 +1,2 @@
+server int sv_basegibhealth = 150;
+server int sv_mingibhealth = 50;

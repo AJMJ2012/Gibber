@@ -1,0 +1,3 @@
+GameInfo {
+	AddEventHandlers = "Gibber_EventHandler"
+}
