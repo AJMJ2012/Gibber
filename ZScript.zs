@@ -51,6 +51,7 @@ class Gibber_DamageAccumulator : Inventory {
 			bool forceExtreme = accumilatedDamage >= owner.Health && (source ? source.bEXTREMEDEATH : false) || (inflictor ? inflictor.bEXTREMEDEATH : false);
 			if (isExtreme || forceExtreme) {
 				ApplyDamage(accumilatedDamage, damageType, source, inflictor, true);
+				accumilatedDamage = 0;
 			}
 		}
 	}
@@ -68,6 +69,7 @@ class Gibber_DamageAccumulator : Inventory {
 			if (accumilatedDamage > 0) {
 				// Deal Accumilated Damage. Does not handle gibbing. Forces no gibbing.
 				ApplyDamage(accumilatedDamage, self.lastDamageType, self.lastSource, self.lastInflictor);
+				accumilatedDamage = 0;
 			}
 			if (accumilatedDamage < lastHealth) {
 				accumilatedDamage = 0;
@@ -76,7 +78,7 @@ class Gibber_DamageAccumulator : Inventory {
 	}
 
 	void ApplyDamage(int damage, Name damageType, Actor source, Actor inflictor = null, bool extreme = false) {
-		int damageFlags = DMSS_NOPROTECT|DMSS_NOFACTOR; // Don't want ModifyDamage to be called again
+		int damageFlags = DMSS_NOPROTECT|DMSS_NOFACTOR|DMSS_AFFECTARMOR; // Don't want ModifyDamage to be called again
 		if ((inflictor ? inflictor.bFOILINVUL : false) || (source ? source.bFOILINVUL : false)) {
 			damageFlags |= DMSS_FOILINVUL;
 		}
