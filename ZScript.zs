@@ -133,7 +133,7 @@ class Gibber_DamageAccumulator : Inventory {
 
 		// Deal the damage
 		owner.A_DamageSelf(damage, damageType, damageFlags, src: ptr, inflict: ptr);
-		owner.Tracer = lastTracer; // Restore tracer if it's used by some other mod
+		if (owner) owner.Tracer = lastTracer; // Restore tracer if it's used by some other mod
 
 		// Restore flags
 		if (extreme) {
